@@ -57,9 +57,10 @@ function Plans({products}: Props) {
 
         <div className="mt-4 flex flex-col space-y-4 ">
           <div className="flex w-full items-center justify-center self-end md:w-3/5">
-            {products.map((product) => (
+            <div className="planBox">Standard</div>
+            {/* {products.map((product) => (
                 <div className="planBox" key={product.id}>{product.name}</div>
-            ))}
+            ))} */}
           </div>
         </div>
 

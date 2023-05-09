@@ -44,7 +44,7 @@ export default function Home({
   const subscription = false;
 
   if (loading || subscription === null) return null;
-  if (!subscription) return <Plans products={products}/>;
+  // if (!subscription) return <Plans products={products}/>;
 
   return (
     <div
