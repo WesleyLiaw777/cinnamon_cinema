@@ -12,6 +12,7 @@ import { modalState } from "@/atoms/modalAtom";
 import Plans from "@/components/Plans";
 import { Product, getProducts } from "@stripe/firestore-stripe-payments";
 import payments from "@/lib/stripe";
+import useSubscription from "@/hooks/useSubscription";
 
 interface Props {
   netflixOriginals: Movie[]
@@ -40,7 +41,7 @@ export default function Home({
 }: Props) {
   const { user, loading } = useAuth();
   const showModal = useRecoilValue(modalState);
-  const subscription = false;
+  const subscription = useSubscription(user);
 
   if (loading || subscription === null) return null;
   console.log(`Subscription status is: ${subscription}`);

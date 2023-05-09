@@ -1,6 +1,9 @@
 import { modalState, movieState } from "@/atoms/modalAtom";
+import { db } from "@/firebase";
+import useAuth from "@/hooks/useAuth";
 import { Genre, Movie, Element } from "@/typings";
 import {
+  CheckIcon,
   PlusIcon,
   ThumbUpIcon,
   VolumeOffIcon,
@@ -8,6 +11,7 @@ import {
   XIcon,
 } from "@heroicons/react/solid";
 import MuiModal from "@mui/material/Modal";
+import { deleteDoc, doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { FaPlay } from "react-icons/fa";
 import ReactPlayer from "react-player/lazy";
@@ -20,6 +24,8 @@ function Modal() {
   const [data, setData] = useState();
   const [genres, setGenres] = useState<Genre[]>([]);
   const [muted, setMuted] = useState(true);
+  const {user} = useAuth()
+  const [addedToList, setAddedToList] = useState(false);
 
   useEffect(() => {
     if (!movie) return;
@@ -48,6 +54,13 @@ function Modal() {
 
     fetchMovie();
   }, [movie]);
+
+  const handleList = async () => {
+    if (addedToList){
+      await deleteDoc(
+        doc(db, "customers", user!.uid, "myList", movie?.id.toString()!)
+    )}
+  }
 
   const handleClose = () => {
     setShowModal(false);
@@ -83,8 +96,12 @@ function Modal() {
                 Play
               </button>
 
-              <button className="modalButton">
-                <PlusIcon className="h-7 w-7" />
+              <button className="modalButton" onClick={handleList}>
+                {addedToList ? (
+                  <CheckIcon className="h-7 w-7" />
+                ) : (
+                  <PlusIcon className="h-7 w-7" />
+                )}
               </button>
 
               <button className="modalButton">
@@ -105,7 +122,7 @@ function Modal() {
           <div className="space-y-6 text-lg">
             <div className="flex items-center space-x-2 text-sm">
               <p className="font-semibold text-green-400">
-                {movie!.vote_average * 10}% Match
+                {(movie!.vote_average * 10).toFixed()}% Match
               </p>
               <p className="font-light">
                 {movie?.release_date || movie?.first_air_date}
@@ -116,23 +133,23 @@ function Modal() {
             </div>
 
             <div className="flex flex-col gap-x-10 gap-y-4 font-light md:flex-row">
-                <p className="w-5/6">{movie?.overview}</p>
-                <div className="flex flex-col space-y-3 text-sm">
-                    <div>
-                        <span className="text-[gray]">Genres: </span>
-                        {genres.map((genre) => genre.name).join(', ')}
-                    </div>
-
-                    <div>
-                        <span className="text-[gray]">Original Language: </span>
-                        {movie?.original_language}
-                    </div>
-
-                    <div>
-                        <span className="text-[gray]">Total Votes: </span>
-                        {movie?.vote_count}
-                    </div>
+              <p className="w-5/6">{movie?.overview}</p>
+              <div className="flex flex-col space-y-3 text-sm">
+                <div>
+                  <span className="text-[gray]">Genres: </span>
+                  {genres.map((genre) => genre.name).join(", ")}
                 </div>
+
+                <div>
+                  <span className="text-[gray]">Original Language: </span>
+                  {movie?.original_language}
+                </div>
+
+                <div>
+                  <span className="text-[gray]">Total Votes: </span>
+                  {movie?.vote_count}
+                </div>
+              </div>
             </div>
           </div>
         </div>
