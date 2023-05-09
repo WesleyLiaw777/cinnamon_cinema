@@ -9,16 +9,20 @@ import useAuth from "@/hooks/useAuth";
 import { useRecoilValue } from "recoil";
 import Modal from "@/components/Modal";
 import { modalState } from "@/atoms/modalAtom";
+import Plans from "@/components/Plans";
+import { Product, getProducts } from "@stripe/firestore-stripe-payments";
+import payments from "@/lib/stripe";
 
 interface Props {
-  netflixOriginals: Movie[]
-  trendingNow: Movie[]
-  topRated: Movie[]
-  actionMovies: Movie[]
-  comedyMovies: Movie[]
-  horrorMovies: Movie[]
-  romanceMovies: Movie[]
-  documentaries: Movie[]
+  netflixOriginals: Movie[];
+  trendingNow: Movie[];
+  topRated: Movie[];
+  actionMovies: Movie[];
+  comedyMovies: Movie[];
+  horrorMovies: Movie[];
+  romanceMovies: Movie[];
+  documentaries: Movie[];
+  products: Product[]
 }
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,14 +36,22 @@ export default function Home({
   romanceMovies,
   topRated,
   trendingNow,
+  products,
 }: Props) {
-  const { logout, loading} = useAuth()
-  const showModal = useRecoilValue(modalState)
+//Props) => { is written in tutorial
+  const { user, loading } = useAuth();
+  const showModal = useRecoilValue(modalState);
+  const subscription = false;
 
-  if (loading) {return 'null'}
+  if (loading || subscription === null) return null;
+  if (!subscription) return <Plans products={products}/>;
 
   return (
-    <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh] ${showModal && '!h-screen overflow-hidden'}`}>
+    <div
+      className={`relative h-screen bg-gradient-to-b lg:h-[140vh] ${
+        showModal && "!h-screen overflow-hidden"
+      }`}
+    >
       <Head>
         <title>Home - Netflix</title>
         <link rel="icon" href="/favicon.ico" />
@@ -58,12 +70,19 @@ export default function Home({
           <Row title="Documentaries" movies={documentaries} />
         </section>
       </main>
-      {showModal && <Modal/>}
+      {showModal && <Modal />}
     </div>
   );
 }
 
 export const getServerSideProps = async () => {
+  const products = await getProducts(payments, {
+    includePrices: true,
+    activeOnly: true,
+  })
+    .then((res) => res)
+    .catch((error) => console.log(error.message));
+
   const [
     netflixOriginals,
     trendingNow,
