@@ -14,14 +14,14 @@ import { Product, getProducts } from "@stripe/firestore-stripe-payments";
 import payments from "@/lib/stripe";
 
 interface Props {
-  netflixOriginals: Movie[];
-  trendingNow: Movie[];
-  topRated: Movie[];
-  actionMovies: Movie[];
-  comedyMovies: Movie[];
-  horrorMovies: Movie[];
-  romanceMovies: Movie[];
-  documentaries: Movie[];
+  netflixOriginals: Movie[]
+  trendingNow: Movie[]
+  topRated: Movie[]
+  actionMovies: Movie[]
+  comedyMovies: Movie[]
+  horrorMovies: Movie[]
+  romanceMovies: Movie[]
+  documentaries: Movie[]
   products: Product[]
 }
 
@@ -38,13 +38,14 @@ export default function Home({
   trendingNow,
   products,
 }: Props) {
-//Props) => { is written in tutorial
   const { user, loading } = useAuth();
   const showModal = useRecoilValue(modalState);
   const subscription = false;
 
   if (loading || subscription === null) return null;
-  // if (!subscription) return <Plans products={products}/>;
+  console.log(`Subscription status is: ${subscription}`);
+  console.log(products);
+  if (!subscription) return <Plans products={products}/>;
 
   return (
     <div
@@ -83,6 +84,7 @@ export const getServerSideProps = async () => {
     .then((res) => res)
     .catch((error) => console.log(error.message));
 
+    console.log(`Server side props products: ${products}`)
   const [
     netflixOriginals,
     trendingNow,
@@ -113,6 +115,7 @@ export const getServerSideProps = async () => {
       horrorMovies: horrorMovies.results,
       romanceMovies: romanceMovies.results,
       documentaries: documentaries.results,
+      products,
     },
   };
 };

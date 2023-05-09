@@ -48,13 +48,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setLoading(false);
         } else {
           // Not logged in...
+
           //TEMPORARY FIX
-          setUser(user);
-          setLoading(false);
-          router.push('/');
-          // setUser(null);
-          // setLoading(true);
-          // router.replace("/login");
+          // setUser(user);
+          // setLoading(false);
+          // router.push('/');
+
+          setUser(null);
+          setLoading(true);
+          router.push('/login');
         }
 
         setInitialLoading(false);
@@ -79,7 +81,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUser(userCredential.user);
-        // router.replace("/");
+        router.replace("/");
         setLoading(false);
       })
       .catch((error) => alert(error.message))
