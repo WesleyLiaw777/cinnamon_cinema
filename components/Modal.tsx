@@ -11,7 +11,14 @@ import {
   XIcon,
 } from "@heroicons/react/solid";
 import MuiModal from "@mui/material/Modal";
-import { DocumentData, collection, deleteDoc, doc, onSnapshot, setDoc } from "firebase/firestore";
+import {
+  DocumentData,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { FaPlay } from "react-icons/fa";
@@ -27,18 +34,17 @@ function Modal() {
   const [muted, setMuted] = useState(true);
   const { user } = useAuth();
   const [addedToList, setAddedToList] = useState(false);
-  const [movies, setMovies] = useState<DocumentData[] | Movie[]>([])
-
+  const [movies, setMovies] = useState<DocumentData[] | Movie[]>([]);
 
   const toastStyle = {
-    background: 'white',
-    color: 'black',
-    fontWeight: 'bold',
-    fontSize: '16px',
-    padding: '15px',
-    borderRadius: '9999px',
-    maxWidth: '1000px',
-  }
+    background: "white",
+    color: "black",
+    fontWeight: "bold",
+    fontSize: "16px",
+    padding: "15px",
+    borderRadius: "9999px",
+    maxWidth: "1000px",
+  };
 
   useEffect(() => {
     if (!movie) return;
@@ -72,11 +78,11 @@ function Modal() {
   useEffect(() => {
     if (user) {
       return onSnapshot(
-        collection(db, 'customers', user.uid, 'myList'),
+        collection(db, "customers", user.uid, "myList"),
         (snapshot) => setMovies(snapshot.docs)
-      )
+      );
     }
-  }, [db, movie?.id])
+  }, [db, movie?.id]);
 
   // Check if the movie is already in the user's list
   useEffect(
@@ -85,7 +91,7 @@ function Modal() {
         movies.findIndex((result) => result.data().id === movie?.id) !== -1
       ),
     [movies]
-  )
+  );
 
   const handleList = async () => {
     if (addedToList) {
@@ -116,8 +122,8 @@ function Modal() {
 
   const handleClose = () => {
     setShowModal(false);
-    setMovie(null)
-    toast.dismiss()
+    setMovie(null);
+    toast.dismiss();
   };
 
   return (
