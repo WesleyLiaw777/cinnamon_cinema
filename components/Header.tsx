@@ -5,23 +5,21 @@ import { useEffect, useState } from "react";
 import BasicMenu from "./BasicMenu";
 
 function Header() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const {logout} = useAuth()
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
-        setIsScrolled(true)
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
       }
-      else {
-        setIsScrolled(false)
-      }
-    }
-    window.addEventListener("scroll", handleScroll)
+    };
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <header className={`${isScrolled && "bg-[#141414]"}`}>
@@ -34,10 +32,12 @@ function Header() {
           alt="netflix_logo"
         />
 
-        <BasicMenu/>
+        <BasicMenu />
 
         <ul className="hidden space-x-4 md:flex">
-          <li className="headerLink">Home</li>
+          <li className="headerLink cursor-default font-semibold text-white hover:text-white">
+            Home
+          </li>
           <li className="headerLink">TV Shows</li>
           <li className="headerLink">Movies</li>
           <li className="headerLink">New & Popular</li>

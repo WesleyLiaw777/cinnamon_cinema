@@ -6,7 +6,7 @@ import {
   User,
 } from "firebase/auth";
 
-import { useRouter } from "next/router";
+import { useRouter }  from "next/router";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { auth } from "../firebase";
 
@@ -48,17 +48,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setLoading(false);
         } else {
           // Not logged in...
-
-          //TEMPORARY FIX
-          // setUser(user);
-          // setLoading(false);
-          // router.push('/');
-
           setUser(null);
           setLoading(true);
-          router.push('/login');
+          router.push('/login'); 
         }
-
         setInitialLoading(false);
       }),
     [auth]
@@ -69,7 +62,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setUser(userCredential.user);
-        // router.replace("/");
+        //pushes to home, but since there's no subscription, it shows plans.
+        router.replace("/");
         setLoading(false);
       })
       .catch((error) => alert(error.message))

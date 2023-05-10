@@ -1,8 +1,8 @@
 import { baseUrl } from "@/constants/movie";
 import { Movie } from "@/typings";
-import { InformationCircleIcon } from "@heroicons/react/solid";
 import Image from "next/legacy/image";
 import React, { useEffect, useState } from "react";
+import { InformationCircleIcon } from "@heroicons/react/solid";
 import { FaPlay } from "react-icons/fa";
 import { useRecoilState } from "recoil";
 import { modalState, movieState } from "@/atoms/modalAtom";
@@ -13,8 +13,8 @@ interface Props {
 }
 
 function Banner({ netflixOriginals }: Props) {
-  const [movie, setMovie] = useState<Movie | null>(null);
   const [showModal, setShowModal] = useRecoilState(modalState);
+  const [movie, setMovie] = useState<Movie | null>(null);
   const [currentMovie, setCurrentMovie] = useRecoilState(movieState);
 
 

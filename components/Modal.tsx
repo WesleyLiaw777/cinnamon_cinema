@@ -101,7 +101,7 @@ function Modal() {
       toast(
         `${movie?.title || movie?.original_name} has been removed from My List`,
         {
-          duration: 8000,
+          duration: 4000,
           style: toastStyle,
         }
       );
@@ -113,7 +113,7 @@ function Modal() {
       toast(
         `${movie?.title || movie?.original_name} has been added to My List`,
         {
-          duration: 8000,
+          duration: 4000,
           style: toastStyle,
         }
       );
