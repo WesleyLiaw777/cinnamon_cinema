@@ -7,6 +7,8 @@ import BasicMenu from "./BasicMenu";
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
 
+
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -32,7 +34,7 @@ function Header() {
           alt="netflix_logo"
         />
 
-        <BasicMenu />
+        <BasicMenu/>
 
         <ul className="hidden space-x-4 md:flex">
           <li className="headerLink cursor-default font-semibold text-white hover:text-white">
