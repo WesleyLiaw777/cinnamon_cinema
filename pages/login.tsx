@@ -3,6 +3,8 @@ import Image from "next/legacy/image";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase";
 
 interface Inputs {
   email: string;
@@ -26,6 +28,11 @@ function Login() {
       await signUp(data.email, data.password);
     }
   };
+
+  async function signInAsGuest() {
+    console.log(`clicked`)
+    await signIn("ant@antmail.com", "bullet");
+  }
 
   return (
     <div className="relative flex h-screen w-screen flex-col bg-black md:items-center md:justify-center md:bg-transparent">
@@ -52,6 +59,13 @@ function Login() {
         className="relative mt-24 space-y-8 rounded bg-black/75 py-10 px-6 md:mt-0 md:max-w-md md:px-14"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <button
+          className="w-[337px] rounded bg-[#E50914] py-3 font-semibold"
+          onClick={() => signInAsGuest()}
+          type="button"
+        >
+          Sign In As Guest
+        </button>
         <h1 className="text-4xl font-semibold">Sign In</h1>
         <div className="space-y-4">
           <label className="inline-block w-full">
@@ -96,8 +110,7 @@ function Login() {
           New to Netflix?{" "}
           <button
             className="cursor-pointer text-white hover:underline"
-            onClick={() => setLogin(false)}
-            type="submit"
+            onClick={() => signInAsGuest()}
           >
             Sign up now
           </button>
