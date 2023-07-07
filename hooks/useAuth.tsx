@@ -6,7 +6,7 @@ import {
   User,
 } from "firebase/auth";
 
-import { useRouter }  from "next/router";
+import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { auth } from "../firebase";
 
@@ -31,7 +31,7 @@ const AuthContext = createContext<IAuth>({
 interface AuthProviderProps {
   children: React.ReactNode;
 }
-
+//This is an entire component! An HOC, actually.
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           // Not logged in...
           setUser(null);
           setLoading(true);
-          router.push('/login'); 
+          router.push("/login");
         }
         setInitialLoading(false);
       }),

@@ -27,8 +27,6 @@ interface Props {
   products: Product[]
 }
 
-const inter = Inter({ subsets: ["latin"] });
-
 export default function Home({
   netflixOriginals,
   actionMovies,
@@ -40,6 +38,7 @@ export default function Home({
   trendingNow,
   products,
 }: Props) {
+  console.log(products);
   const { user, loading } = useAuth();
   const showModal = useRecoilValue(modalState);
   const subscription = useSubscription(user);

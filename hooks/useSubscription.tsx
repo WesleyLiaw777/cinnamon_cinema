@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 
 function useSubscription(user: User | null) {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
-
   useEffect(() => {
     if (!user) return;
     onCurrentUserSubscriptionUpdate(payments, (snapshot) => {

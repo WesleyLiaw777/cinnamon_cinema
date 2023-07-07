@@ -54,7 +54,7 @@ function Plans({ products }: Props) {
         </h1>
         <ul>
           <li className="flex items-center gap-x-2 text-lg">
-            <CheckIcon className="h-7 w-7 text-[#E50914]" /> Watch all you want.
+            <CheckIcon className="h-7 w-7 text-[#e50914]" /> Watch all you want.
             Ad-free.
           </li>
           <li className="flex items-center gap-x-2 text-lg">
